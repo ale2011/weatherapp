@@ -43,90 +43,91 @@ public class ForecastResponse {
 
         try {
             forecastObj = new JSONObject(response);
-        } catch (JSONException e) {
-            return;
-        }
-
-        try {
-            latitude = forecastObj.getString("latitude");
-            longitude = forecastObj.getString("longitude");
+            
+            latitude = forecastObj.getDouble("latitude") + "";
+            longitude = forecastObj.getDouble("longitude") + "";
             timezone = forecastObj.getString("timezone");
-            offset = forecastObj.getString("offset");
+            offset = forecastObj.getDouble("offset") + "";
 
             if (forecastObj.has("currently")) {
                 JSONObject currentlyJSONObject = forecastObj.getJSONObject("currently");
-                mOutputCurrently = buildForecastIOCurrently(currentlyJSONObject);
+                mOutputCurrently = buildForecastCurrently(currentlyJSONObject);
             }
             if (forecastObj.has("daily")) {
                 JSONObject dailyJSONObject = forecastObj.getJSONObject("daily");
-                mOutputDaily = buildForecastIODaily(dailyJSONObject);
+                mOutputDaily = buildForecastDaily(dailyJSONObject);
             }
             if (forecastObj.has("hourly")) {
                 JSONObject hourlyJSONObject = forecastObj.getJSONObject("hourly");
-                mOutputHourly = buildForecastIOHourly(hourlyJSONObject);
+                mOutputHourly = buildForecastHourly(hourlyJSONObject);
             }
             if (forecastObj.has("minutely")) {
                 JSONObject minutelyJSONObject = forecastObj.getJSONObject("minutely");
-                mOutputMinutely = buildForecastIOMinutely(minutelyJSONObject);
+                mOutputMinutely = buildForecastMinutely(minutelyJSONObject);
             }
             if (forecastObj.has("alerts")) {
                 JSONArray alertsJSONArray = forecastObj.getJSONArray("alerts");
-                mOutputAlerts = buildForecastIOAlerts(alertsJSONArray);
+                mOutputAlerts = buildForecastAlerts(alertsJSONArray);
             }
             if (forecastObj.has("flags")) {
                 JSONObject flagsJSONObject = forecastObj.getJSONObject("flags");
-                mOutputFlags = buildForecastIOFlags(flagsJSONObject);
+                mOutputFlags = buildForecastFlags(flagsJSONObject);
             }
-        } catch (JSONException e) {
+        } 
+        catch (JSONException e) {
+            return;
         }
     }
     
-    public String getValue(String keyString) {
+    public String getValue(String keyString) 
+    {
         String[] fields = keyString.split("-");
         String level = fields[0];
         String value = null;
 
         try {
-            if (level.equals(new String("latitude"))) {
-                value = latitude;
-            } else if (level.equals(new String("longitude"))) {
-                value = longitude;
-            } else if (level.equals(new String("timezone"))) {
-                value = timezone;
-            } else if (level.equals(new String("offset"))) {
-                value = offset;
-            } else if (level.equals(new String("currently"))) {
-                value = getCurrently().getValue(fields[1]);
-            } else if (level.equals(new String("minutely"))) {
-                try {
-                    int listIndex = Integer.parseInt(fields[1]);
-                    value = getMinutely().getData()[listIndex].getValue(fields[2]);
-                } catch (NumberFormatException e) {
-                    value = getMinutely().getValue(fields[1]);
+            switch (level) {
+                case "currently": {
+                    value = getCurrently().getValue(fields[1]);
                 }
-            } else if (level.equals(new String("hourly"))) {
-                try {
-                    int listIndex = Integer.parseInt(fields[1]);
-                    value = getHourly().getData()[listIndex].getValue(fields[2]);
-                } catch (NumberFormatException e) {
-                    value = getHourly().getValue(fields[1]);
-                }
-            } else if (level.equals(new String("daily"))) {
-                try {
+                case "daily": {
+                    try {
                     int listIndex = Integer.parseInt(fields[1]);
                     value = getDaily().getData()[listIndex].getValue(fields[2]);
-                } catch (NumberFormatException e) {
-                    value = getDaily().getValue(fields[1]);
+                    
+                    } catch (NumberFormatException e) {
+                        value = getDaily().getValue(fields[1]);
+                    }
                 }
-            } else if (level.equals(new String("alerts"))) {
-                try {
+                case "hourly": {
+                    try {
+                    int listIndex = Integer.parseInt(fields[1]);
+                    ForecastData [] tmp = getDaily().getData();
+                    
+                    value = getHourly().getData()[listIndex].getValue(fields[2]);
+                    } catch (NumberFormatException e) {
+                        value = getHourly().getValue(fields[1]);
+                    }
+                }
+                case "minutely": {
+                    try {
+                        int listIndex = Integer.parseInt(fields[1]);
+                        value = getMinutely().getData()[listIndex].getValue(fields[2]);
+                    } catch (NumberFormatException e) {
+                        value = getMinutely().getValue(fields[1]);
+                    }
+                }
+                case "alerts": {
+                    try {
                     int listIndex = Integer.parseInt(fields[1]);
                     value = getAlerts().getData()[listIndex].getValue(fields[2]);
-                } catch (NumberFormatException e) {
-                    value = getAlerts().getData()[0].getValue(fields[1]);
+                    } catch (NumberFormatException e) {
+                        value = getAlerts().getData()[0].getValue(fields[1]);
+                    }
                 }
-            } else if (level.equals(new String("flags"))) {
-                value = getFlags().getValue(fields[1]);
+                case "flags": {
+                    value = getFlags().getValue(fields[1]);
+                }
             }
         } catch (NullPointerException e) {
             return null;
@@ -151,50 +152,50 @@ public class ForecastResponse {
     }
     
     public Currently getCurrently() {
-		return mOutputCurrently;
-	}
+	return mOutputCurrently;
+    }
 	
-	public Currently buildForecastIOCurrently(JSONObject forecastJsonObject) {
-		return new Currently(forecastJsonObject);
-	}
+    public Currently buildForecastCurrently(JSONObject forecastJsonObject) {
+        return new Currently(forecastJsonObject);
+    }
 
-	public Minutely getMinutely() {
-		return mOutputMinutely;
-	}
-	
-	public Minutely buildForecastIOMinutely(JSONObject forecastJsonObject) {
-		return new Minutely(forecastJsonObject);
-	}
+    public Minutely getMinutely() {
+        return mOutputMinutely;
+    }
 
-	public Hourly getHourly() {
-		return mOutputHourly;
-	}
+    public Minutely buildForecastMinutely(JSONObject forecastJsonObject) {
+        return new Minutely(forecastJsonObject);
+    }
 
-	public Hourly buildForecastIOHourly(JSONObject forecastJsonObject) {
-		return new Hourly(forecastJsonObject);
-	}
+    public Hourly getHourly() {
+        return mOutputHourly;
+    }
 
-	public Daily getDaily() {
-		return mOutputDaily;
-	}
-	
-	public Daily buildForecastIODaily(JSONObject forecastJsonObject) {
-		return new Daily(forecastJsonObject);
-	}
+    public Hourly buildForecastHourly(JSONObject forecastJsonObject) {
+        return new Hourly(forecastJsonObject);
+    }
 
-	public Alerts getAlerts() {
-		return mOutputAlerts;
-	}
-	
-	public Alerts buildForecastIOAlerts(JSONArray forecastJsonArray) {
-		return new Alerts(forecastJsonArray);
-	}
-	
-	public Flags getFlags() {
-		return mOutputFlags;
-	}
-	
-	public Flags buildForecastIOFlags(JSONObject forecastJsonObject) {
-		return new Flags(forecastJsonObject);
-	}
+    public Daily getDaily() {
+        return mOutputDaily;
+    }
+
+    public Daily buildForecastDaily(JSONObject forecastJsonObject) {
+        return new Daily(forecastJsonObject);
+    }
+
+    public Alerts getAlerts() {
+        return mOutputAlerts;
+    }
+
+    public Alerts buildForecastAlerts(JSONArray forecastJsonArray) {
+        return new Alerts(forecastJsonArray);
+    }
+
+    public Flags getFlags() {
+        return mOutputFlags;
+    }
+
+    public Flags buildForecastFlags(JSONObject forecastJsonObject) {
+        return new Flags(forecastJsonObject);
+    }
 }
