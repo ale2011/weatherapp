@@ -18,8 +18,8 @@ public class Daily {
 
     private DataBlock dataBlock;
 
-    public Daily(JSONObject jsonObject) {
-        //set data points
+    public Daily(JSONObject jsonObject) 
+    {
     	dataBlock = buildData(jsonObject);
     }
 
@@ -65,6 +65,7 @@ public class Daily {
     
     public void toDisplay()
     {
+    	
     	dataBlock.toDisplay();
     }
 }

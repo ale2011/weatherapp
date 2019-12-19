@@ -69,6 +69,9 @@ public class DataBlock {
     
     public void toDisplay()
     {
+    	System.out.println("Summary: " + summary + "\nIcon: " + icon);
+    	System.out.println("-----------------");
+    	
     	int count = 1;
     	for(ForecastData fd : data)
     	{

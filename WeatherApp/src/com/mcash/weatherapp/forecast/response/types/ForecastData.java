@@ -15,10 +15,10 @@ import org.json.JSONObject;
  */
 public class ForecastData {
 
-    private HashMap<String, String> dataMap;
+    private HashMap<String, Object> dataMap;
 
     public ForecastData(JSONObject forecastObject) {
-        dataMap = new HashMap<String, String>();
+        dataMap = new HashMap<String, Object>();
         JSONArray dataNames = forecastObject.names();
 
         for (int index = 0; index < dataNames.length(); index++) 
@@ -28,7 +28,7 @@ public class ForecastData {
             dataPointName = dataNames.getString(index);
             dataPointValue = forecastObject.get(dataPointName);
 
-            dataMap.put(dataPointName, dataPointValue.toString());            
+            dataMap.put(dataPointName, dataPointValue);            
         }
     }
 

@@ -5,6 +5,7 @@
  */
 package com.mcash.weatherapp.main;
 
+import com.mcash.weatherapp.config.Configuration;
 import com.mcash.weatherapp.forecast.request.ForecastRequest;
 import com.mcash.weatherapp.forecast.response.ForecastResponse;
 import com.mcash.weatherapp.forecast.response.types.Alerts;
@@ -12,6 +13,9 @@ import com.mcash.weatherapp.forecast.response.types.Currently;
 import com.mcash.weatherapp.forecast.response.types.Daily;
 import com.mcash.weatherapp.forecast.response.types.Flags;
 import com.mcash.weatherapp.forecast.response.types.ForecastData;
+import com.mcash.weatherapp.forecast.response.types.Hourly;
+import com.mcash.weatherapp.forecast.response.types.Minutely;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,10 +33,10 @@ public class Main {
      */
     public static void main(String[] args) throws ParseException 
     {
-        ForecastRequest request = new ForecastRequest("060d1fe78becf9f42a22c5267fff8697",39.371778,-74.624684);
+    	//Configuration config = new Configuration("C:\\Users\\u\\Desktop\\config.txt");
+    	ForecastRequest request = new ForecastRequest("060d1fe78becf9f42a22c5267fff8697",39.371778,-74.624684);
         HashMap<String, String> requestParam = new HashMap<String, String>();
         requestParam.put("units", "us");
-        requestParam.put("userAgent", "Custom User Agent 1.0");
         request.setRequestParams(requestParam);
         request.sendRequest();
         
@@ -41,14 +45,16 @@ public class Main {
    
         
         Currently c = response.getCurrently();
-        //c.toDisplay();
+        c.toDisplay();
         
         Daily d = response.getDaily();
-        d.toDisplay();
+        //d.toDisplay();
         
+        Hourly h = response.getHourly();
+        //h.toDisplay();
         
-        
-        
+        Minutely m = response.getMinutely();
+        //m.toDisplay();
     }
     
 }

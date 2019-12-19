@@ -51,27 +51,27 @@ public class ForecastResponse {
 
             if (forecastObj.has("currently")) {
                 JSONObject currentlyJSONObject = forecastObj.getJSONObject("currently");
-                mOutputCurrently = buildForecastCurrently(currentlyJSONObject);
+                mOutputCurrently = buildCurrently(currentlyJSONObject);
             }
             if (forecastObj.has("daily")) {
                 JSONObject dailyJSONObject = forecastObj.getJSONObject("daily");
-                mOutputDaily = buildForecastDaily(dailyJSONObject);
+                mOutputDaily = buildDaily(dailyJSONObject);
             }
             if (forecastObj.has("hourly")) {
                 JSONObject hourlyJSONObject = forecastObj.getJSONObject("hourly");
-                mOutputHourly = buildForecastHourly(hourlyJSONObject);
+                mOutputHourly = buildtHourly(hourlyJSONObject);
             }
             if (forecastObj.has("minutely")) {
                 JSONObject minutelyJSONObject = forecastObj.getJSONObject("minutely");
-                mOutputMinutely = buildForecastMinutely(minutelyJSONObject);
+                mOutputMinutely = buildMinutely(minutelyJSONObject);
             }
             if (forecastObj.has("alerts")) {
                 JSONArray alertsJSONArray = forecastObj.getJSONArray("alerts");
-                mOutputAlerts = buildForecastAlerts(alertsJSONArray);
+                mOutputAlerts = buildAlerts(alertsJSONArray);
             }
             if (forecastObj.has("flags")) {
                 JSONObject flagsJSONObject = forecastObj.getJSONObject("flags");
-                mOutputFlags = buildForecastFlags(flagsJSONObject);
+                mOutputFlags = buildFlags(flagsJSONObject);
             }
         } 
         catch (JSONException e) {
@@ -79,27 +79,11 @@ public class ForecastResponse {
         }
     }
     
-    public ForecastData[] getDataPoints(String keyString) {
-        ForecastData[] value = null;
-        try {
-            if (keyString == "minutely") {
-                value = getMinutely().getData();
-            } else if (keyString == "hourly") {
-                value = getHourly().getData();
-            } else if (keyString == "daily") {
-                value = getDaily().getData();
-            }
-        } catch (NullPointerException e) {
-            return null;
-        }
-        return value;
-    }
-    
     public Currently getCurrently() {
 	return mOutputCurrently;
     }
 	
-    public Currently buildForecastCurrently(JSONObject forecastJsonObject) {
+    public Currently buildCurrently(JSONObject forecastJsonObject) {
         return new Currently(forecastJsonObject);
     }
 
@@ -107,7 +91,7 @@ public class ForecastResponse {
         return mOutputMinutely;
     }
 
-    public Minutely buildForecastMinutely(JSONObject forecastJsonObject) {
+    public Minutely buildMinutely(JSONObject forecastJsonObject) {
         return new Minutely(forecastJsonObject);
     }
 
@@ -115,7 +99,7 @@ public class ForecastResponse {
         return mOutputHourly;
     }
 
-    public Hourly buildForecastHourly(JSONObject forecastJsonObject) {
+    public Hourly buildtHourly(JSONObject forecastJsonObject) {
         return new Hourly(forecastJsonObject);
     }
 
@@ -123,7 +107,7 @@ public class ForecastResponse {
         return mOutputDaily;
     }
 
-    public Daily buildForecastDaily(JSONObject forecastJsonObject) {
+    public Daily buildDaily(JSONObject forecastJsonObject) {
         return new Daily(forecastJsonObject);
     }
 
@@ -131,7 +115,7 @@ public class ForecastResponse {
         return mOutputAlerts;
     }
 
-    public Alerts buildForecastAlerts(JSONArray forecastJsonArray) {
+    public Alerts buildAlerts(JSONArray forecastJsonArray) {
         return new Alerts(forecastJsonArray);
     }
 
@@ -139,7 +123,7 @@ public class ForecastResponse {
         return mOutputFlags;
     }
 
-    public Flags buildForecastFlags(JSONObject forecastJsonObject) {
+    public Flags buildFlags(JSONObject forecastJsonObject) {
         return new Flags(forecastJsonObject);
     }
 }
