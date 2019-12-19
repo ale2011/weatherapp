@@ -12,11 +12,11 @@ import org.json.JSONObject;
  * @author u
  */
 public class Hourly {
-    private DataBlock dataBlock;
+    private DataBlock mDataBlock;
     
     public Hourly(JSONObject forecastHourlyJsonObject) {
 		//set data points
-		dataBlock = buildForecastIODataBlock(forecastHourlyJsonObject);
+		mDataBlock = buildForecastIODataBlock(forecastHourlyJsonObject);
 	}
     
     /**
@@ -24,7 +24,7 @@ public class Hourly {
 	 * @return	a list of ForecastIODataPoints 	
 	 */
 	public ForecastData[] getData() {
-		return dataBlock.data();
+		return mDataBlock.data();
 	}
 	
 	/**
@@ -32,8 +32,29 @@ public class Hourly {
 	 * @param key	String parameter which provides the key for what data to provide
 	 * @return	returns the String value of the key provided, null if it doesnt exist
 	 */
-	public String getValue(String key) {
-		return dataBlock.getValue(key) + "";
+	public String getValue(String k) {
+		String time = k.split("-")[0];
+        String key = k.split("-")[1];
+        String values = "";
+        
+        if(time.equals("all"))
+        {
+            for(int index = 0; index < mDataBlock.getBlockSize(); index++)
+            {
+                ForecastData fd = mDataBlock.getData(index);
+                values += fd.getValue(key).toString() + "|";
+            }
+        }
+        else
+        {
+            for(int index = 0; index < mDataBlock.getBlockSize(); index++)
+            {
+                ForecastData fd = mDataBlock.getData(index);
+                if(time.equals(fd.getValue("time").toString()))
+                    values += fd.getValue(key).toString() + "|";
+            }
+        }
+        return values;  
 	}
 	
 	/**
@@ -41,7 +62,7 @@ public class Hourly {
 	 * @see ForecastIODataBlock
 	 */
 	public DataBlock get() {
-		return dataBlock;
+		return mDataBlock;
 	}
 	
 	/**

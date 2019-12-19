@@ -13,7 +13,7 @@ import org.json.JSONObject;
  */
 public class Minutely {
     
-    private DataBlock dataBlock;
+    private DataBlock mDataBlock;
 	
 	/**
 	 * constructor method which populates the fields related to the minutely weather conditions
@@ -21,7 +21,7 @@ public class Minutely {
 	 */
 	public Minutely(JSONObject forecastObj) {
 		//set data points
-		dataBlock = buildDataBlock(forecastObj);
+		mDataBlock = buildDataBlock(forecastObj);
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public class Minutely {
 	 * @return	a list of DataPoints 	
 	 */
 	public ForecastData[] getData() {
-		return dataBlock.data();
+		return mDataBlock.data();
 	}
 	
 	/**
@@ -37,8 +37,29 @@ public class Minutely {
 	 * @param key	String parameter which provides the key for what data to provide
 	 * @return	returns the String value of the key provided, null if it doesnt exist
 	 */
-	public String getValue(String key) {
-		return dataBlock.getValue(key);
+	public String getValue(String k) {
+            String time = k.split("-")[0];
+        String key = k.split("-")[1];
+        String values = "";
+        
+        if(time.equals("all"))
+        {
+            for(int index = 0; index < mDataBlock.getBlockSize(); index++)
+            {
+                ForecastData fd = mDataBlock.getData(index);
+                values += fd.getValue(key).toString() + "|";
+            }
+        }
+        else
+        {
+            for(int index = 0; index < mDataBlock.getBlockSize(); index++)
+            {
+                ForecastData fd = mDataBlock.getData(index);
+                if(time.equals(fd.getValue("time").toString()))
+                    values += fd.getValue(key).toString() + "|";
+            }
+        }
+        return values;  
 	}
 	
 	/**
@@ -46,7 +67,7 @@ public class Minutely {
 	 * @see DataBlock
 	 */
 	public DataBlock get() {
-		return dataBlock;
+		return mDataBlock;
 	}
 	
 	/**

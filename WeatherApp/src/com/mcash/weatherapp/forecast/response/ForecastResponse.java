@@ -79,62 +79,6 @@ public class ForecastResponse {
         }
     }
     
-    public String getValue(String keyString) 
-    {
-        String[] fields = keyString.split("-");
-        String level = fields[0];
-        String value = null;
-
-        try {
-            switch (level) {
-                case "currently": {
-                    value = getCurrently().getValue(fields[1]);
-                }
-                case "daily": {
-                    try {
-                    int listIndex = Integer.parseInt(fields[1]);
-                    value = getDaily().getData()[listIndex].getValue(fields[2]);
-                    
-                    } catch (NumberFormatException e) {
-                        value = getDaily().getValue(fields[1]);
-                    }
-                }
-                case "hourly": {
-                    try {
-                    int listIndex = Integer.parseInt(fields[1]);
-                    ForecastData [] tmp = getDaily().getData();
-                    
-                    value = getHourly().getData()[listIndex].getValue(fields[2]);
-                    } catch (NumberFormatException e) {
-                        value = getHourly().getValue(fields[1]);
-                    }
-                }
-                case "minutely": {
-                    try {
-                        int listIndex = Integer.parseInt(fields[1]);
-                        value = getMinutely().getData()[listIndex].getValue(fields[2]);
-                    } catch (NumberFormatException e) {
-                        value = getMinutely().getValue(fields[1]);
-                    }
-                }
-                case "alerts": {
-                    try {
-                    int listIndex = Integer.parseInt(fields[1]);
-                    value = getAlerts().getData()[listIndex].getValue(fields[2]);
-                    } catch (NumberFormatException e) {
-                        value = getAlerts().getData()[0].getValue(fields[1]);
-                    }
-                }
-                case "flags": {
-                    value = getFlags().getValue(fields[1]);
-                }
-            }
-        } catch (NullPointerException e) {
-            return null;
-        }
-        return value;
-    }
-
     public ForecastData[] getDataPoints(String keyString) {
         ForecastData[] value = null;
         try {

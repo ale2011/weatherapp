@@ -7,7 +7,6 @@ package com.mcash.weatherapp.forecast.response.types;
 
 import java.util.HashMap;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -22,28 +21,26 @@ public class ForecastData {
         dataMap = new HashMap<String, String>();
         JSONArray dataNames = forecastObject.names();
 
-        for (int index = 0; index < dataNames.length(); index++) {
+        for (int index = 0; index < dataNames.length(); index++) 
+        {
             String dataPointName = "";
             Object dataPointValue = null;
-            try {
-                dataPointName = dataNames.getString(index);
-            } catch (JSONException e) {
-                //go to next
-                continue;
-            }
+            dataPointName = dataNames.getString(index);
+            dataPointValue = forecastObject.get(dataPointName);
 
-            try {
-                dataPointValue = forecastObject.get(dataPointName);
-            } catch (JSONException e) {
-                //go to next
-                continue;
-            }
-
-            dataMap.put(dataPointName, dataPointValue.toString());
+            dataMap.put(dataPointName, dataPointValue.toString());            
         }
     }
 
     public String getValue(String key) {
         return dataMap.get(key).toString();
+    }
+    
+    public void print()
+    {
+        for(String v : dataMap.keySet())
+        {
+            System.out.println(v + ":\t" + dataMap.get(v).toString());
+        }
     }
 }

@@ -17,14 +17,10 @@ public class DataBlock {
 
     private String summary;
     private String icon;
-    private String time;
     private ForecastData[] data;
 
     public DataBlock(JSONObject jsonObj) {
         try {
-            if(jsonObj.has("time"))
-                time = jsonObj.get("time").toString();
-            
             if(jsonObj.has("summary"))
                 summary = jsonObj.getString("summary"); 
             
@@ -46,24 +42,13 @@ public class DataBlock {
         catch (JSONException e) {
         }
     }
-
-    public String getValue(String key) {
-        if (key.equals("summary")) {
-            return summary;
-        } 
-        else if (key.equals("icon")) {
-            return icon;
-        } 
-        else if (key.equals("time"))
-        {
-            return time;
-        } 
+    
+    public ForecastData getData(int num)
+    {
+        if(num < data.length)
+            return data[num];
         else
-        {
-            
-        }
-        
-        return null;
+            return null;
     }
 
     public String summary() {
@@ -78,4 +63,7 @@ public class DataBlock {
         return data;
     }
 
+    public int getBlockSize() {
+        return data.length;
+    }
 }
