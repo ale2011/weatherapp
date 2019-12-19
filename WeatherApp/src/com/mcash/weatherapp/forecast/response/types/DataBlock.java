@@ -66,4 +66,16 @@ public class DataBlock {
     public int getBlockSize() {
         return data.length;
     }
+    
+    public void toDisplay()
+    {
+    	int count = 1;
+    	for(ForecastData fd : data)
+    	{
+    		System.out.println("Block #" + count);
+    		fd.toDisplay();
+    		count++;
+    		System.out.println("-----------------");
+    	}
+    }
 }

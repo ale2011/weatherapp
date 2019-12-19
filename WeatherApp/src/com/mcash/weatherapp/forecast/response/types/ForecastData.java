@@ -36,7 +36,7 @@ public class ForecastData {
         return dataMap.get(key).toString();
     }
     
-    public void print()
+    public void toDisplay()
     {
         for(String v : dataMap.keySet())
         {

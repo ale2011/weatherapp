@@ -7,8 +7,10 @@ package com.mcash.weatherapp.main;
 
 import com.mcash.weatherapp.forecast.request.ForecastRequest;
 import com.mcash.weatherapp.forecast.response.ForecastResponse;
+import com.mcash.weatherapp.forecast.response.types.Alerts;
 import com.mcash.weatherapp.forecast.response.types.Currently;
 import com.mcash.weatherapp.forecast.response.types.Daily;
+import com.mcash.weatherapp.forecast.response.types.Flags;
 import com.mcash.weatherapp.forecast.response.types.ForecastData;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,21 +31,22 @@ public class Main {
     {
         ForecastRequest request = new ForecastRequest("060d1fe78becf9f42a22c5267fff8697",39.371778,-74.624684);
         HashMap<String, String> requestParam = new HashMap<String, String>();
-	requestParam.put("units", "us");
-	requestParam.put("userAgent", "Custom User Agent 1.0");
+        requestParam.put("units", "us");
+        requestParam.put("userAgent", "Custom User Agent 1.0");
         request.setRequestParams(requestParam);
         request.sendRequest();
         
         String responseString = request.getResponseString();  
         ForecastResponse response = new ForecastResponse(responseString);  
-        Currently c = response.getCurrently();
-        ForecastData cd = c.get();
-        String t = cd.getValue("time");
+   
         
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        int d = Integer.parseInt(t);
-        Date date = new Date(d * 1000L);                
-        System.out.println(formatter.format(date));
+        Currently c = response.getCurrently();
+        //c.toDisplay();
+        
+        Daily d = response.getDaily();
+        d.toDisplay();
+        
+        
         
         
     }

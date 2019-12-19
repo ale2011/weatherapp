@@ -13,7 +13,7 @@ import org.json.JSONObject;
  */
 public class Minutely {
     
-    private DataBlock mDataBlock;
+    private DataBlock dataBlock;
 	
 	/**
 	 * constructor method which populates the fields related to the minutely weather conditions
@@ -21,7 +21,7 @@ public class Minutely {
 	 */
 	public Minutely(JSONObject forecastObj) {
 		//set data points
-		mDataBlock = buildDataBlock(forecastObj);
+		dataBlock = buildData(forecastObj);
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public class Minutely {
 	 * @return	a list of DataPoints 	
 	 */
 	public ForecastData[] getData() {
-		return mDataBlock.data();
+		return dataBlock.data();
 	}
 	
 	/**
@@ -38,23 +38,23 @@ public class Minutely {
 	 * @return	returns the String value of the key provided, null if it doesnt exist
 	 */
 	public String getValue(String k) {
-            String time = k.split("-")[0];
+        String time = k.split("-")[0];
         String key = k.split("-")[1];
         String values = "";
         
         if(time.equals("all"))
         {
-            for(int index = 0; index < mDataBlock.getBlockSize(); index++)
+            for(int index = 0; index < dataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = mDataBlock.getData(index);
+                ForecastData fd = dataBlock.getData(index);
                 values += fd.getValue(key).toString() + "|";
             }
         }
         else
         {
-            for(int index = 0; index < mDataBlock.getBlockSize(); index++)
+            for(int index = 0; index < dataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = mDataBlock.getData(index);
+                ForecastData fd = dataBlock.getData(index);
                 if(time.equals(fd.getValue("time").toString()))
                     values += fd.getValue(key).toString() + "|";
             }
@@ -67,17 +67,22 @@ public class Minutely {
 	 * @see DataBlock
 	 */
 	public DataBlock get() {
-		return mDataBlock;
+		return dataBlock;
 	}
 	
 	/**
-	 * construct the forecastIODataBlock object
+	 * construct the DataBlock object
 	 * @param forecastDailyJsonObject json object of minutely weather
 	 * @return DataBlock which hold all info for that data block
 	 * @see DataBlock
 	 */
-	public DataBlock buildDataBlock(JSONObject forecastObj) {
+	public DataBlock buildData(JSONObject forecastObj) {
 		return new DataBlock(forecastObj);
 	}
+	
+	public void toDisplay()
+    {
+    	dataBlock.toDisplay();
+    }
         
 }

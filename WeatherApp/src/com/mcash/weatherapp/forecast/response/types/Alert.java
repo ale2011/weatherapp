@@ -14,37 +14,28 @@ import org.json.JSONObject;
  *
  * @author u
  */
-public class Alert {
-
-    private HashMap<String, String> dataMap;
+public class Alert 
+{
+    private HashMap<String, Object> dataMap;
 
     public Alert(JSONObject forecastAlertJsonObject) 
     {
-        dataMap = new HashMap<String, String>();
+        dataMap = new HashMap<String, Object>();
         JSONArray dataPointNames = forecastAlertJsonObject.names();
-        for (int i = 0; i < dataPointNames.length(); i++) {
+        for (int i = 0; i < dataPointNames.length(); i++) 
+        {
             String dataPointName = "";
-            String dataPointValue = "";
-            try {
-                dataPointName = dataPointNames.getString(i);
-            } catch (JSONException e) {
-                //go to nextsf
-                continue;
-            }
-
-            try {
-                dataPointValue = forecastAlertJsonObject.getString(dataPointName);
-            } catch (JSONException e) {
-                //go to next
-                continue;
-            }
+            Object dataPointValue = null;
+            
+            dataPointName = dataPointNames.getString(i);
+            dataPointValue = forecastAlertJsonObject.get(dataPointName);
+            
             dataMap.put(dataPointName, dataPointValue);
         }
-    }
-    
+    }    
 
     public String getValue(String key) {
-        return dataMap.get(key);
+        return dataMap.get(key).toString();
     }
 
     public int getValueAsInt(String key) {
@@ -58,4 +49,21 @@ public class Alert {
     public Long getValueAsLong(String key) {
         return Long.parseLong(getValue(key));
     }
+    
+    public void toDisplay()
+    {
+    	for(String key : dataMap.keySet())
+    	{
+    		System.out.println(key + "\t" + dataMap.get(key) + "");
+    	}
+    }
+    
+    /**
+     * alerts components:
+     * 	title		String
+     * 	time		int
+     * 	expires		int
+     * 	description	str
+     * 	uri			str - url to weather.gov
+     */
 }

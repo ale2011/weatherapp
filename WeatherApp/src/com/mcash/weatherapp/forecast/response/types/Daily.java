@@ -16,15 +16,15 @@ import org.json.JSONObject;
  */
 public class Daily {
 
-    private DataBlock mDataBlock;
+    private DataBlock dataBlock;
 
     public Daily(JSONObject jsonObject) {
         //set data points
-        mDataBlock = buildForecastData(jsonObject);
+    	dataBlock = buildData(jsonObject);
     }
 
     public ForecastData[] getData() {
-        return mDataBlock.data();
+        return dataBlock.data();
     }
 
     public String getValue(String k) throws ParseException {
@@ -35,9 +35,9 @@ public class Daily {
         
         if(time.equals("all"))
         {
-            for(int index = 0; index < mDataBlock.getBlockSize(); index++)
+            for(int index = 0; index < dataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = mDataBlock.getData(index);
+                ForecastData fd = dataBlock.getData(index);
                 long d = Long.parseLong(fd.getValue("time"));
                 Date date = new Date(d);                
                 values += formatter.format(date) + "\t" + fd.getValue(key).toString() + "\n";
@@ -45,9 +45,9 @@ public class Daily {
         }
         else
         {
-            for(int index = 0; index < mDataBlock.getBlockSize(); index++)
+            for(int index = 0; index < dataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = mDataBlock.getData(index);
+                ForecastData fd = dataBlock.getData(index);
                 if(time.equals(fd.getValue("time").toString()))
                     values += fd.getValue(key).toString() + "|";
             }
@@ -56,10 +56,15 @@ public class Daily {
     }
 
     public DataBlock get() {
-        return mDataBlock;
+        return dataBlock;
     }
 
-    public DataBlock buildForecastData(JSONObject forecastDailyJsonObject) {
-        return new DataBlock(forecastDailyJsonObject);
+    public DataBlock buildData(JSONObject dailyJsonObject) {
+        return new DataBlock(dailyJsonObject);
+    }
+    
+    public void toDisplay()
+    {
+    	dataBlock.toDisplay();
     }
 }

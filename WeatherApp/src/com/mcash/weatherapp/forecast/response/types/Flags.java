@@ -15,29 +15,43 @@ import org.json.JSONObject;
  */
 public class Flags {
 
-    private HashMap<String, String> dataMap;
+    private HashMap<String, Object> dataMap;
 
     public Flags(JSONObject jsonObject) {
-        dataMap = new HashMap<String, String>();
-        try {
-            String darkskyunavailable = jsonObject.getString("darksky-unavailable");
-            dataMap.put("darkskyunavailable", darkskyunavailable);
-        } catch (JSONException e) {
-        }
-
-        try {
-            String metnolicense = jsonObject.getString("metno-license");
-            dataMap.put("metnolicense", metnolicense);
-        } catch (JSONException e) {
-        }
-
-        try {
-            String units = jsonObject.getString("units");
-            dataMap.put("units", units);
-        } catch (JSONException e) {
+        dataMap = new HashMap<String, Object>();
+        try 
+        {
+        	if(jsonObject.has("darksky-unavailable"))
+            { 
+        		Object darkskyunavailable = jsonObject.get("darksky-unavailable");
+        		dataMap.put("darkskyunavailable", darkskyunavailable);                
+            }
+        	if(jsonObject.has("metno-license"))
+        	{
+	            Object metnolicense = jsonObject.get("metno-license");
+	            dataMap.put("metnolicense", metnolicense);
+        	}
+	        if(jsonObject.has("units"))
+	        {
+	            Object units = jsonObject.get("units");
+	            dataMap.put("units", units);
+	        }
+        } 
+        catch (JSONException e) 
+        {
+        	
         }
     }
+    
     public String getValue(String key) {
         return dataMap.get(key) + "";
+    }
+    
+    public void toDisplay()
+    {
+    	for(String key : dataMap.keySet())
+    	{
+    		System.out.println(key + "\t" + dataMap.get(key) + "");
+    	}
     }
 }

@@ -17,23 +17,33 @@ public class Alerts {
     
     private Alert[] alerts;
     
-    public Alerts(JSONArray forecastArray) {
-		if(forecastArray.length() > 0) {
+    public Alerts(JSONArray forecastArray) 
+    {
+		if(forecastArray.length() > 0) 
+		{
 			alerts = new Alert[forecastArray.length()];
-			for(int i=0; i<forecastArray.length(); i++) {
-				try {
-					JSONObject forecastIOAlert = forecastArray.getJSONObject(i);
-					Alert alertData = new Alert(forecastIOAlert);
-					alerts[i] = alertData;
-				}
-				catch(JSONException e) {
-				}
+			for(int i=0; i<forecastArray.length(); i++) 
+			{
+				JSONObject forecastIOAlert = forecastArray.getJSONObject(i);
+				Alert alertData = new Alert(forecastIOAlert);
+				alerts[i] = alertData;
+				
 			}
 		}
 	}
     
-    public Alert[] getData() {
+    public Alert[] getData() 
+    {
 		return alerts;
 	}
+    
+    public void toDisplay()
+    {
+    	for(Alert a : alerts)
+    	{
+    		System.out.println(a);
+    		a.toDisplay();
+    	}
+    }
     
 }
