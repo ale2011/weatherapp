@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mcash.weatherapp.main;
+package com.mcash.app.weather.main;
 
-import com.mcash.weatherapp.config.Configuration;
-import com.mcash.weatherapp.forecast.request.ForecastRequest;
-import com.mcash.weatherapp.forecast.response.ForecastResponse;
-import com.mcash.weatherapp.forecast.response.types.Alerts;
-import com.mcash.weatherapp.forecast.response.types.Currently;
-import com.mcash.weatherapp.forecast.response.types.Daily;
-import com.mcash.weatherapp.forecast.response.types.Flags;
-import com.mcash.weatherapp.forecast.response.types.ForecastData;
-import com.mcash.weatherapp.forecast.response.types.Hourly;
-import com.mcash.weatherapp.forecast.response.types.Minutely;
+import com.mcash.app.weather.config.Configuration;
+import com.mcash.app.weather.forecast.request.ForecastRequest;
+import com.mcash.app.weather.forecast.response.ForecastResponse;
+import com.mcash.app.weather.forecast.response.types.Alerts;
+import com.mcash.app.weather.forecast.response.types.Currently;
+import com.mcash.app.weather.forecast.response.types.Daily;
+import com.mcash.app.weather.forecast.response.types.Flags;
+import com.mcash.app.weather.forecast.response.types.ForecastData;
+import com.mcash.app.weather.forecast.response.types.Hourly;
+import com.mcash.app.weather.forecast.response.types.Minutely;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,10 +45,10 @@ public class Main {
    
         
         Currently c = response.getCurrently();
-        c.toDisplay();
+        //c.toDisplay();
         
         Daily d = response.getDaily();
-        //d.toDisplay();
+        d.toDisplay();
         
         Hourly h = response.getHourly();
         //h.toDisplay();

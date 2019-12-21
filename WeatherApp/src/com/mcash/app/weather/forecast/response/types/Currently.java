@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mcash.weatherapp.forecast.response.types;
+package com.mcash.app.weather.forecast.response.types;
 
 import java.util.HashMap;
 import org.json.JSONObject;

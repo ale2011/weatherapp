@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mcash.weatherapp.forecast.response.types;
+package com.mcash.app.weather.forecast.response.types;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -40,7 +44,18 @@ public class ForecastData {
     {
         for(String v : dataMap.keySet())
         {
-            System.out.println(v + ":\t" + dataMap.get(v).toString());
+        	String key = v;
+        	String value = dataMap.get(key).toString();
+        	
+        	if(key.contains("time") || key.contains("Time"))
+        	{
+        		Date date = new Date(Integer.parseInt(value) * 1000L);
+        		SimpleDateFormat formater = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        		formater.setTimeZone(TimeZone.getTimeZone("UTC"));
+        		value = formater.format(date);
+        	}
+        	
+            System.out.println(key + ":\t" + value);
         }
     }
 }
