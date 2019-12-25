@@ -24,14 +24,15 @@ import com.mcash.app.weather.forecast.response.ForecastResponse;
 public class ForecastRequest {
     
     private final String BASE_URL = "https://api.forecast.io/forecast/";
-    private String FORECAST_URL;
-    private String FORECAST_RESPONSE;
-    private String USER_PARAMS;
-    private String API;
-    private Double LAT;
-    private Double LON;
+    private String FORECAST_URL = "";
+    private String FORECAST_RESPONSE_STRING = "";
+    private String USER_PARAMS = "";
+    private String API = "";
+    private Double LAT = 0.0;
+    private Double LON = 0.0;
     
     private HashMap <String, String> OPTIONS;
+    private ForecastResponse FORECAST_RESPONSE = null;
     
     public ForecastRequest(String api, Double lat, Double lon)
     {
@@ -69,29 +70,23 @@ public class ForecastRequest {
     
     //////////////////////////////////////////////////////////////
     
-    public void sendRequest()
+    public String sendRequest()
     {
         // build send request
         URL url = generateForecastURL();
+        
         // send request & receive response
-        this.FORECAST_RESPONSE = makeForecastRequest(url);
-    }    
-    
-    /**
-     * do actual request
-     * @param url
-     * @return 
-     */
-    public String makeForecastRequest(URL url)
-    {
+        //this.FORECAST_RESPONSE = makeForecastRequest(url);
+        
         HttpURLConnection conn = null;
         String responseString = "";
+        
         try 
         {
             conn = (HttpURLConnection) url.openConnection();
             if(USER_PARAMS != null) 
             {
-                    conn.setRequestProperty("User-Agent", USER_PARAMS);
+            	conn.setRequestProperty("User-Agent", USER_PARAMS);
             }
             conn.setDoOutput(false);
             BufferedReader reader = null;
@@ -102,29 +97,29 @@ public class ForecastRequest {
                 String line = "";
                 while ((line = reader.readLine()) != null) 
                 {
-                        responseString = line;
+                	responseString = line;
                 }
             } 
             catch (IOException e) {
+            	e.printStackTrace();
             } 
             finally 
             {
                 if (reader != null) 
                 {
-                    try 
-                    {
-                        reader.close();
-                        reader = null;
-                    } 
-                    catch (IOException e) {
-                    }
+                	reader.close();
+                    reader = null;                    
                 }
             }
         } 
-        catch (IOException e1) {
+        catch (IOException e) {
+        	e.printStackTrace();
         }
-        return responseString;
-    }
+        
+        FORECAST_RESPONSE_STRING = responseString;
+        FORECAST_RESPONSE = new ForecastResponse(FORECAST_RESPONSE_STRING);
+        return this.FORECAST_RESPONSE_STRING;
+    }        
     
     public String getURL()
     {
@@ -133,22 +128,12 @@ public class ForecastRequest {
     
     public String getResponseString()
     {
-        return this.FORECAST_RESPONSE;
+        return this.FORECAST_RESPONSE_STRING;
     }
     
     public ForecastResponse getForecastResponse()
     {
-        return generateForecastResponse(FORECAST_RESPONSE);
+        return this.FORECAST_RESPONSE;
     }
     
-    /**
-     * Build the ForecastResponse object from the response
-     * @param response the response string from the request
-     * @return ForecastResponse object
-     * @see ForecastResponse
-     */
-    public ForecastResponse generateForecastResponse(String response)
-    {
-        return new ForecastResponse(response);
-    }
 }

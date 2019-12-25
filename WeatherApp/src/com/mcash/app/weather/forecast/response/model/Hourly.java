@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mcash.app.weather.forecast.response.types;
+package com.mcash.app.weather.forecast.response.model;
 
 import org.json.JSONObject;
 
@@ -12,11 +12,11 @@ import org.json.JSONObject;
  * @author u
  */
 public class Hourly {
-    private DataBlock dataBlock;
+    private ForecastDataBlock forecastDataBlock;
     
     public Hourly(JSONObject hourlyJsonObject) {
 		//set data points
-    	dataBlock = buildData(hourlyJsonObject);
+    	forecastDataBlock = buildData(hourlyJsonObject);
 	}
     
     /**
@@ -24,7 +24,7 @@ public class Hourly {
 	 * @return	a list of ForecastIODataPoints 	
 	 */
 	public ForecastData[] getData() {
-		return dataBlock.data();
+		return forecastDataBlock.data();
 	}
 	
 	/**
@@ -39,17 +39,17 @@ public class Hourly {
         
         if(time.equals("all"))
         {
-            for(int index = 0; index < dataBlock.getBlockSize(); index++)
+            for(int index = 0; index < forecastDataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = dataBlock.getData(index);
+                ForecastData fd = forecastDataBlock.getData(index);
                 values += fd.getValue(key).toString() + "|";
             }
         }
         else
         {
-            for(int index = 0; index < dataBlock.getBlockSize(); index++)
+            for(int index = 0; index < forecastDataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = dataBlock.getData(index);
+                ForecastData fd = forecastDataBlock.getData(index);
                 if(time.equals(fd.getValue("time").toString()))
                     values += fd.getValue(key).toString() + "|";
             }
@@ -61,8 +61,8 @@ public class Hourly {
 	 * returns a single data block for daily weather
 	 * @see ForecastIODataBlock
 	 */
-	public DataBlock get() {
-		return dataBlock;
+	public ForecastDataBlock get() {
+		return forecastDataBlock;
 	}
 	
 	/**
@@ -71,12 +71,12 @@ public class Hourly {
 	 * @return ForecastIODataBlock which hold all info for that data block
 	 * @see ForecastIODataBlock
 	 */
-	public DataBlock buildData(JSONObject hourlyJsonObject) {
-		return new DataBlock(hourlyJsonObject);
+	public ForecastDataBlock buildData(JSONObject hourlyJsonObject) {
+		return new ForecastDataBlock(hourlyJsonObject);
 	}
 	
 	public void toDisplay()
     {
-    	dataBlock.toDisplay();
+    	forecastDataBlock.toDisplay();
     }
 }

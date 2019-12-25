@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mcash.app.weather.forecast.response.types;
+package com.mcash.app.weather.forecast.response.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,15 +16,15 @@ import org.json.JSONObject;
  */
 public class Daily {
 
-    private DataBlock dataBlock;
+    private ForecastDataBlock forecastDataBlock;
 
     public Daily(JSONObject jsonObject) 
     {
-    	dataBlock = buildData(jsonObject);
+    	forecastDataBlock = buildData(jsonObject);
     }
 
     public ForecastData[] getData() {
-        return dataBlock.data();
+        return forecastDataBlock.data();
     }
 
     public String getValue(String k) throws ParseException {
@@ -35,9 +35,9 @@ public class Daily {
         
         if(time.equals("all"))
         {
-            for(int index = 0; index < dataBlock.getBlockSize(); index++)
+            for(int index = 0; index < forecastDataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = dataBlock.getData(index);
+                ForecastData fd = forecastDataBlock.getData(index);
                 long d = Long.parseLong(fd.getValue("time"));
                 Date date = new Date(d);                
                 values += formatter.format(date) + "\t" + fd.getValue(key).toString() + "\n";
@@ -45,9 +45,9 @@ public class Daily {
         }
         else
         {
-            for(int index = 0; index < dataBlock.getBlockSize(); index++)
+            for(int index = 0; index < forecastDataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = dataBlock.getData(index);
+                ForecastData fd = forecastDataBlock.getData(index);
                 if(time.equals(fd.getValue("time").toString()))
                     values += fd.getValue(key).toString() + "|";
             }
@@ -55,17 +55,17 @@ public class Daily {
         return values;        
     }
 
-    public DataBlock get() {
-        return dataBlock;
+    public ForecastDataBlock get() {
+        return forecastDataBlock;
     }
 
-    public DataBlock buildData(JSONObject dailyJsonObject) {
-        return new DataBlock(dailyJsonObject);
+    public ForecastDataBlock buildData(JSONObject dailyJsonObject) {
+        return new ForecastDataBlock(dailyJsonObject);
     }
     
     public void toDisplay()
     {
     	
-    	dataBlock.toDisplay();
+    	forecastDataBlock.toDisplay();
     }
 }

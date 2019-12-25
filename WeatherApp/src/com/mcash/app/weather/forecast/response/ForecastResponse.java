@@ -9,13 +9,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mcash.app.weather.forecast.response.types.Alerts;
-import com.mcash.app.weather.forecast.response.types.Currently;
-import com.mcash.app.weather.forecast.response.types.Daily;
-import com.mcash.app.weather.forecast.response.types.Flags;
-import com.mcash.app.weather.forecast.response.types.ForecastData;
-import com.mcash.app.weather.forecast.response.types.Hourly;
-import com.mcash.app.weather.forecast.response.types.Minutely;
+import com.mcash.app.weather.forecast.response.model.Alerts;
+import com.mcash.app.weather.forecast.response.model.Currently;
+import com.mcash.app.weather.forecast.response.model.Daily;
+import com.mcash.app.weather.forecast.response.model.Flags;
+import com.mcash.app.weather.forecast.response.model.ForecastData;
+import com.mcash.app.weather.forecast.response.model.Hourly;
+import com.mcash.app.weather.forecast.response.model.Minutely;
 
 /**
  *
@@ -23,12 +23,12 @@ import com.mcash.app.weather.forecast.response.types.Minutely;
  */
 public class ForecastResponse {
 
-    private Currently mOutputCurrently;
-    private Minutely mOutputMinutely;
-    private Hourly mOutputHourly;
-    private Daily mOutputDaily;
-    private Alerts mOutputAlerts;
-    private Flags mOutputFlags;
+    private Currently forecast_currently;
+    private Minutely forecast_minutely;
+    private Hourly forecast_hourly;
+    private Daily forecast_daily;
+    private Alerts forecast_alert;
+    private Flags forecast_alerts;
 
     private String latitude;
     private String longitude;
@@ -51,27 +51,27 @@ public class ForecastResponse {
 
             if (forecastObj.has("currently")) {
                 JSONObject currentlyJSONObject = forecastObj.getJSONObject("currently");
-                mOutputCurrently = buildCurrently(currentlyJSONObject);
+                forecast_currently = buildCurrently(currentlyJSONObject);
             }
             if (forecastObj.has("daily")) {
                 JSONObject dailyJSONObject = forecastObj.getJSONObject("daily");
-                mOutputDaily = buildDaily(dailyJSONObject);
+                forecast_daily = buildDaily(dailyJSONObject);
             }
             if (forecastObj.has("hourly")) {
                 JSONObject hourlyJSONObject = forecastObj.getJSONObject("hourly");
-                mOutputHourly = buildtHourly(hourlyJSONObject);
+                forecast_hourly = buildtHourly(hourlyJSONObject);
             }
             if (forecastObj.has("minutely")) {
                 JSONObject minutelyJSONObject = forecastObj.getJSONObject("minutely");
-                mOutputMinutely = buildMinutely(minutelyJSONObject);
+                forecast_minutely = buildMinutely(minutelyJSONObject);
             }
             if (forecastObj.has("alerts")) {
                 JSONArray alertsJSONArray = forecastObj.getJSONArray("alerts");
-                mOutputAlerts = buildAlerts(alertsJSONArray);
+                forecast_alert = buildAlerts(alertsJSONArray);
             }
             if (forecastObj.has("flags")) {
                 JSONObject flagsJSONObject = forecastObj.getJSONObject("flags");
-                mOutputFlags = buildFlags(flagsJSONObject);
+                forecast_alerts = buildFlags(flagsJSONObject);
             }
         } 
         catch (JSONException e) {
@@ -80,7 +80,7 @@ public class ForecastResponse {
     }
     
     public Currently getCurrently() {
-	return mOutputCurrently;
+	return forecast_currently;
     }
 	
     public Currently buildCurrently(JSONObject forecastJsonObject) {
@@ -88,7 +88,7 @@ public class ForecastResponse {
     }
 
     public Minutely getMinutely() {
-        return mOutputMinutely;
+        return forecast_minutely;
     }
 
     public Minutely buildMinutely(JSONObject forecastJsonObject) {
@@ -96,7 +96,7 @@ public class ForecastResponse {
     }
 
     public Hourly getHourly() {
-        return mOutputHourly;
+        return forecast_hourly;
     }
 
     public Hourly buildtHourly(JSONObject forecastJsonObject) {
@@ -104,7 +104,7 @@ public class ForecastResponse {
     }
 
     public Daily getDaily() {
-        return mOutputDaily;
+        return forecast_daily;
     }
 
     public Daily buildDaily(JSONObject forecastJsonObject) {
@@ -112,7 +112,7 @@ public class ForecastResponse {
     }
 
     public Alerts getAlerts() {
-        return mOutputAlerts;
+        return forecast_alert;
     }
 
     public Alerts buildAlerts(JSONArray forecastJsonArray) {
@@ -120,7 +120,7 @@ public class ForecastResponse {
     }
 
     public Flags getFlags() {
-        return mOutputFlags;
+        return forecast_alerts;
     }
 
     public Flags buildFlags(JSONObject forecastJsonObject) {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mcash.app.weather.forecast.response.types;
+package com.mcash.app.weather.forecast.response.model;
 
 import org.json.JSONObject;
 
@@ -13,7 +13,7 @@ import org.json.JSONObject;
  */
 public class Minutely {
     
-    private DataBlock dataBlock;
+    private ForecastDataBlock forecastDataBlock;
 	
 	/**
 	 * constructor method which populates the fields related to the minutely weather conditions
@@ -21,7 +21,7 @@ public class Minutely {
 	 */
 	public Minutely(JSONObject forecastObj) {
 		//set data points
-		dataBlock = buildData(forecastObj);
+		forecastDataBlock = buildData(forecastObj);
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public class Minutely {
 	 * @return	a list of DataPoints 	
 	 */
 	public ForecastData[] getData() {
-		return dataBlock.data();
+		return forecastDataBlock.data();
 	}
 	
 	/**
@@ -44,17 +44,17 @@ public class Minutely {
         
         if(time.equals("all"))
         {
-            for(int index = 0; index < dataBlock.getBlockSize(); index++)
+            for(int index = 0; index < forecastDataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = dataBlock.getData(index);
+                ForecastData fd = forecastDataBlock.getData(index);
                 values += fd.getValue(key).toString() + "|";
             }
         }
         else
         {
-            for(int index = 0; index < dataBlock.getBlockSize(); index++)
+            for(int index = 0; index < forecastDataBlock.getBlockSize(); index++)
             {
-                ForecastData fd = dataBlock.getData(index);
+                ForecastData fd = forecastDataBlock.getData(index);
                 if(time.equals(fd.getValue("time").toString()))
                     values += fd.getValue(key).toString() + "|";
             }
@@ -64,25 +64,25 @@ public class Minutely {
 	
 	/**
 	 * returns a single data block for minutely weather
-	 * @see DataBlock
+	 * @see ForecastDataBlock
 	 */
-	public DataBlock get() {
-		return dataBlock;
+	public ForecastDataBlock get() {
+		return forecastDataBlock;
 	}
 	
 	/**
 	 * construct the DataBlock object
 	 * @param forecastDailyJsonObject json object of minutely weather
 	 * @return DataBlock which hold all info for that data block
-	 * @see DataBlock
+	 * @see ForecastDataBlock
 	 */
-	public DataBlock buildData(JSONObject forecastObj) {
-		return new DataBlock(forecastObj);
+	public ForecastDataBlock buildData(JSONObject forecastObj) {
+		return new ForecastDataBlock(forecastObj);
 	}
 	
 	public void toDisplay()
     {
-    	dataBlock.toDisplay();
+    	forecastDataBlock.toDisplay();
     }
         
 }

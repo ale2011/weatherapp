@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mcash.app.weather.forecast.response.types;
+package com.mcash.app.weather.forecast.response.model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,13 +13,13 @@ import org.json.JSONObject;
  *
  * @author u
  */
-public class DataBlock {
+public class ForecastDataBlock {
 
     private String summary;
     private String icon;
     private ForecastData[] data;
 
-    public DataBlock(JSONObject jsonObj) {
+    public ForecastDataBlock(JSONObject jsonObj) {
         try {
             if(jsonObj.has("summary"))
                 summary = jsonObj.getString("summary"); 

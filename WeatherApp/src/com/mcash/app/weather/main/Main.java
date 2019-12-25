@@ -8,13 +8,13 @@ package com.mcash.app.weather.main;
 import com.mcash.app.weather.config.Configuration;
 import com.mcash.app.weather.forecast.request.ForecastRequest;
 import com.mcash.app.weather.forecast.response.ForecastResponse;
-import com.mcash.app.weather.forecast.response.types.Alerts;
-import com.mcash.app.weather.forecast.response.types.Currently;
-import com.mcash.app.weather.forecast.response.types.Daily;
-import com.mcash.app.weather.forecast.response.types.Flags;
-import com.mcash.app.weather.forecast.response.types.ForecastData;
-import com.mcash.app.weather.forecast.response.types.Hourly;
-import com.mcash.app.weather.forecast.response.types.Minutely;
+import com.mcash.app.weather.forecast.response.model.Alerts;
+import com.mcash.app.weather.forecast.response.model.Currently;
+import com.mcash.app.weather.forecast.response.model.Daily;
+import com.mcash.app.weather.forecast.response.model.Flags;
+import com.mcash.app.weather.forecast.response.model.ForecastData;
+import com.mcash.app.weather.forecast.response.model.Hourly;
+import com.mcash.app.weather.forecast.response.model.Minutely;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,16 +42,15 @@ public class Main {
         
         String responseString = request.getResponseString();  
         ForecastResponse response = new ForecastResponse(responseString);  
-   
         
         Currently c = response.getCurrently();
         //c.toDisplay();
         
         Daily d = response.getDaily();
-        d.toDisplay();
+        //d.toDisplay();
         
         Hourly h = response.getHourly();
-        //h.toDisplay();
+        h.toDisplay();
         
         Minutely m = response.getMinutely();
         //m.toDisplay();
