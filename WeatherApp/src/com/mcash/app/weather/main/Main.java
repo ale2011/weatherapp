@@ -5,22 +5,20 @@
  */
 package com.mcash.app.weather.main;
 
-import com.mcash.app.weather.config.Configuration;
-import com.mcash.app.weather.forecast.request.ForecastRequest;
-import com.mcash.app.weather.forecast.response.ForecastResponse;
-import com.mcash.app.weather.forecast.response.model.Alerts;
-import com.mcash.app.weather.forecast.response.model.Currently;
-import com.mcash.app.weather.forecast.response.model.Daily;
-import com.mcash.app.weather.forecast.response.model.Flags;
-import com.mcash.app.weather.forecast.response.model.ForecastData;
-import com.mcash.app.weather.forecast.response.model.Hourly;
-import com.mcash.app.weather.forecast.response.model.Minutely;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
+
+import com.mcash.app.weather.model.Alerts;
+import com.mcash.app.weather.model.Currently;
+import com.mcash.app.weather.model.Daily;
+import com.mcash.app.weather.model.Flags;
+import com.mcash.app.weather.model.ForecastData;
+import com.mcash.app.weather.model.Hourly;
+import com.mcash.app.weather.model.Minutely;
 
 /**
  *
@@ -33,7 +31,6 @@ public class Main {
      */
     public static void main(String[] args) throws ParseException 
     {
-    	//Configuration config = new Configuration("C:\\Users\\u\\Desktop\\config.txt");
     	ForecastRequest request = new ForecastRequest("060d1fe78becf9f42a22c5267fff8697",39.371778,-74.624684);
         HashMap<String, String> requestParam = new HashMap<String, String>();
         requestParam.put("units", "us");
@@ -44,7 +41,7 @@ public class Main {
         ForecastResponse response = new ForecastResponse(responseString);  
         
         Currently c = response.getCurrently();
-        //c.toDisplay();
+        c.toDisplay();
         
         Daily d = response.getDaily();
         //d.toDisplay();

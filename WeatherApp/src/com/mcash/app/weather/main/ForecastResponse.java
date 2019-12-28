@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mcash.app.weather.forecast.response;
+package com.mcash.app.weather.main;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mcash.app.weather.forecast.response.model.Alerts;
-import com.mcash.app.weather.forecast.response.model.Currently;
-import com.mcash.app.weather.forecast.response.model.Daily;
-import com.mcash.app.weather.forecast.response.model.Flags;
-import com.mcash.app.weather.forecast.response.model.ForecastData;
-import com.mcash.app.weather.forecast.response.model.Hourly;
-import com.mcash.app.weather.forecast.response.model.Minutely;
+import com.mcash.app.weather.model.Alerts;
+import com.mcash.app.weather.model.Currently;
+import com.mcash.app.weather.model.Daily;
+import com.mcash.app.weather.model.Flags;
+import com.mcash.app.weather.model.ForecastData;
+import com.mcash.app.weather.model.Hourly;
+import com.mcash.app.weather.model.Minutely;
 
 /**
  *
